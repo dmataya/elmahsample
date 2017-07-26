@@ -3,29 +3,41 @@
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>Elmah Sample</h1>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
+    <div class="col-md-6">
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            This app demonstrates how to add Elmah as a generic error handler.
         </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <p>
+            Use the following links to trigger various problems.
+        </p>
+        <p>@Html.ActionLink("Null Reference", "Exc", "Home")</p>
+        <p>@Html.ActionLink("No view for this method", "NoView", "Home")</p>
+        <p><a href="billybob">Generate a 404 because of a programmer typo.</a></p>
+        <p>View the logs via the elmah.axd page:</p>
+        <p><a href="elmah.axd">Logs</a></p>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-md-6">
+        <h2>Configuration Steps for Existing App</h2>
+        <ol>
+            <li>Add the elmah Nuget package.</li>
+            <li>Add the ElmahHandleErrorAttribute class from this project (in Helpers).</li>
+            <li>Change App_Start/FilterConfig.cs to use the new handler class instead of System.Web.Mvc.HandleErrorAttribute.</li>
+            <li>Create or copy the included 404.aspx, 404.html, 500.aspx and 500.html files. Make any changes to the messages in these files that are appropriate for the app they are added to.</li>
+            <li>Replace the text in Views/Shared/Error.cshtml with text similar to what you added to 500.html.</li>
+            <li>Set the customerrors section of web.config to match what you see in this project.</li>
+            <li>Installing the Elmah nuget package adds sections to web.config. Note the changes below that have to be made to support log files, email, and remote access.</li>
+        </ol>
+        <h3>Web.config Changes</h3>
+        <p>The customerrors section must be modified to redirect to the specific pages we have in the app. The section from this project can be used as is for production and testing. 
+        However if you want a localhost error to not send you to the redirect page and instead give you the error in the browser, you can set mode to "Off". You will still get Elmah to log the error.
+        I find it easiest to leave it set On, and just rely on the email message.</p>
+        <p>The elmah section of web.config has to explicitly specify a log file location and an error mail address. Change the to address to yourself for testing. Make sure
+        the directory you specified actually exists. Elmah creates a new file in this directory for each error.</p>
+        <p>For production servers there must be an authorization section under the elmah.axd location section to prevent any user from being able to see the url website/elmah.axd.</p>
+        
     </div>
 </div>

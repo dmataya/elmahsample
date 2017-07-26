@@ -13,17 +13,15 @@ namespace ElmahSample.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Exc()
         {
-            ViewBag.Message = "Your application description page.";
-
+            string sessionval = (string)Session["idontexist"];
+            if (sessionval.Length > 0) { sessionval = ""; }
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult NoView()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }
